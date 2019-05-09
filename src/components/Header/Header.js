@@ -15,11 +15,11 @@ const styles = theme => ({
     flexGrow: 1
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   }
 });
 
-function Header(props) {
+const Header = props => {
   const { classes } = props;
 
   return (
@@ -42,7 +42,7 @@ function Header(props) {
       </AppBar>
     </div>
   );
-}
+};
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired

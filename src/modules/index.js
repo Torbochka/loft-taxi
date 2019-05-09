@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { fork } from 'redux-saga/effects';
-// import auth from './Auth';
-// import roverPhotos, { sagas as roverSagas } from './RoverPhotos';
+// import { fork } from 'redux-saga/effects';
+import { reducer as formReducer } from 'redux-form';
 
-// export default combineReducers({ auth, roverPhotos });
-export default combineReducers({ });
+export default combineReducers({
+  form: formReducer
+});
 
 export function* rootSaga() {
   // yield fork(roverSagas);
