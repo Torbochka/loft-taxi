@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,7 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { handleLoginSubmit } from '../../modules/Login';
+import { handleLoginSubmit } from '../../modules/Auth';
+import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   paper: {
@@ -134,12 +136,15 @@ LoginForm.propTypes = {
 const mapStateToProps = () => ({});
 const mapDispatchToProps = { handleLoginSubmit };
 
-const Form = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(LoginForm));
-
-export default reduxForm({
-  form: 'LoginForm',
-  validate
-})(Form);
+export default compose(
+  withRouter,
+  reduxForm({
+    form: 'LoginForm',
+    validate
+  }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(LoginForm);

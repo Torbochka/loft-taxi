@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Header from '../Header';
-import LoginForm from '../Login';
+import Login from '../Login';
 import Map from '../Map';
+import Profile from '../Profile';
 import PrivateRoute from '../PrivateRoute';
 
 const App = () => {
@@ -10,9 +11,10 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Switch>
-        <PrivateRoute path="/login" component={LoginForm} />
-        <Route path="/map" component={Map} />
-        <Redirect from="/" to="/login" />
+        <PrivateRoute path="/map" component={Map} />
+        <PrivateRoute path="/profile" component={Profile} />
+        <Route path="/login" component={Login} />
+        <Redirect to="/map" />
       </Switch>
     </BrowserRouter>
   );

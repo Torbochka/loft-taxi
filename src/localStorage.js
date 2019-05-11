@@ -10,8 +10,16 @@ const loadState = () => {
   }
 };
 
-const saveState = data => {
-  window.localStorage.setItem('state', JSON.stringify(data));
+const updateState = data => {
+  const stringData = window.localStorage.getItem('state');
+  let updateData;
+  if (stringData === null) {
+    updateData = data;
+  } else {
+    updateData = { ...JSON.parse(stringData), ...data };
+  }
+  // Обновляем данные
+  window.localStorage.setItem('state', JSON.stringify(updateData));
 };
 
-export { loadState, saveState };
+export { loadState, updateState };

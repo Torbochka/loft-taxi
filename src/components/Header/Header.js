@@ -1,5 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import connect from 'react-redux/es/connect/connect';
+import { Link, withRouter } from 'react-router-dom';
+import { getIsLoggedIn, handleUnAuthorize } from '../../modules/Auth';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,7 +23,11 @@ const styles = theme => ({
 });
 
 const Header = props => {
-  const { classes } = props;
+  const { handleUnAuthorize, isLoggedIn, classes } = props;
+
+  const handleClick = () => {
+    handleUnAuthorize();
+  };
 
   return (
     <div className={classes.root}>
@@ -35,9 +42,13 @@ const Header = props => {
           <Button component={Link} to="/profile">
             Профиль
           </Button>
-          <Button component={Link} to="/login">
-            Войти
-          </Button>
+          {isLoggedIn ? (
+            <Button onClick={handleClick}>Выйти</Button>
+          ) : (
+            <Button component={Link} to="/login">
+              Войти
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
@@ -48,4 +59,14 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Header);
+const mapStateToProps = state => ({ isLoggedIn: getIsLoggedIn(state) });
+const mapDispatchToProps = { handleUnAuthorize };
+
+export default compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(Header);

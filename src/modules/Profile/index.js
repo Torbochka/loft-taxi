@@ -1,4 +1,3 @@
-export { default } from './Login';
-export * from './Login';
+export * from './Profile';
 export * from './actions';
 export { default as sagas } from './sagas';

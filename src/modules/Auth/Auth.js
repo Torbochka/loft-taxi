@@ -1,15 +1,18 @@
 // import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
-import { handleLoginSubmit, handleLoginSubmitSuccess } from './actions';
+import {
+  handleLoginSubmit,
+  handleLoginSubmitSuccess,
+  handleUnAuthorize
+} from './actions';
 
 const loggedIn = handleActions(
   {
     [handleLoginSubmit]: () => false,
-    [handleLoginSubmitSuccess]: () => true
+    [handleLoginSubmitSuccess]: () => true,
+    [handleUnAuthorize]: () => false
   },
   false
 );
-
 export default loggedIn;
-
 export const getIsLoggedIn = state => state.loggedIn;

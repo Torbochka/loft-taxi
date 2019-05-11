@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { fork } from 'redux-saga/effects';
 import { reducer as formReducer } from 'redux-form';
-import loggedIn, { sagas as formSagas } from './Login';
+import loggedIn, { sagas as formSagas } from './Auth';
 
 export default combineReducers({
   loggedIn,
