@@ -1,5 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -7,10 +8,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { handleLoginSubmit } from '../../modules/Login';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(3)
   },
   container: {
     display: 'flex',
@@ -21,11 +23,11 @@ const styles = theme => ({
 const validate = values => {
   const errors = {};
 
-  if (!values.username || values.username !== 'test@test.com') {
+  if (!values.username) {
     errors.username = 'Неверный логин';
   }
 
-  if (!values.password || values.password !== '123123') {
+  if (!values.password) {
     errors.password = 'Неправильный пароль';
   }
 
@@ -48,7 +50,11 @@ const renderTextField = ({
 );
 
 const LoginForm = props => {
-  const { classes } = props;
+  const { handleSubmit, handleLoginSubmit, classes } = props;
+
+  const onSubmit = () => {
+    handleLoginSubmit();
+  };
 
   return (
     <Grid
@@ -63,7 +69,7 @@ const LoginForm = props => {
     >
       <Grid item xs={3}>
         <Paper className={classes.paper} elevation={2}>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid
               container
               alignContent="stretch"
@@ -98,6 +104,7 @@ const LoginForm = props => {
                   label="Пароль"
                   margin="none"
                   component={renderTextField}
+                  type="password"
                   fullWidth
                   required
                 />
@@ -124,7 +131,15 @@ LoginForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
+const mapStateToProps = () => ({});
+const mapDispatchToProps = { handleLoginSubmit };
+
+const Form = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(LoginForm));
+
 export default reduxForm({
   form: 'LoginForm',
   validate
-})(withStyles(styles)(LoginForm));
+})(Form);
