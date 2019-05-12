@@ -20,7 +20,7 @@ function* fetchLoginInWatcher() {
 
 export function* fetchLoginFlow() {
   try {
-    const { username, password } = yield select(getFormValues('LoginForm'));
+    const { username, password } = yield select(getFormValues('loginForm'));
     yield call(authorize, username, password);
   } catch (e) {
     throw new SubmissionError(e.message);

@@ -1,7 +1,8 @@
 import React from 'react';
 import { compose } from 'redux';
-import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { handleLoginSubmit } from '../../modules/Auth';
+import { getIsLoggedIn, handleLoginSubmit } from '../../modules/Auth';
 import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
@@ -52,13 +53,15 @@ const renderTextField = ({
 );
 
 const LoginForm = props => {
-  const { handleSubmit, handleLoginSubmit, classes } = props;
+  const { handleSubmit, handleLoginSubmit, isLoggedIn, classes } = props;
 
   const onSubmit = () => {
     handleLoginSubmit();
   };
 
-  return (
+  return isLoggedIn ? (
+    <Redirect to="/map" />
+  ) : (
     <Grid
       container
       className={classes.root}
@@ -133,18 +136,18 @@ LoginForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({ isLoggedIn: getIsLoggedIn(state) });
 const mapDispatchToProps = { handleLoginSubmit };
 
 export default compose(
   withRouter,
-  reduxForm({
-    form: 'LoginForm',
-    validate
-  }),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
+  reduxForm({
+    form: 'loginForm',
+    validate
+  }),
   withStyles(styles)
 )(LoginForm);

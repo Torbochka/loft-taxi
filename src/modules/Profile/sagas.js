@@ -1,7 +1,17 @@
-import { takeLatest, put, call, fork } from 'redux-saga/effects';
+import { takeLatest, select, call, fork } from 'redux-saga/effects';
+import { handleProfileSubmit } from './actions';
+import { updateState } from '../../localStorage';
+import { getFormValues } from 'redux-form';
 
-export default function*() {
-  yield fork(watcher);
+function* fetchProfileInWatcher() {
+  yield takeLatest(handleProfileSubmit, fetchProfileFlow);
 }
 
-function* watcher() {}
+export function* fetchProfileFlow() {
+  const profile = yield select(getFormValues('paymentForm'));
+  yield call(updateState, { profile });
+}
+
+export default function*() {
+  yield fork(fetchProfileInWatcher);
+}

@@ -1,5 +1,14 @@
-import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
-// import {  } from './actions'
+import { handleProfileSubmit } from './actions';
 
-export default combineReducers({});
+const profile = handleActions(
+  {
+    [handleProfileSubmit]: (state, action) => action.payload
+  },
+  null
+);
+
+export default profile;
+
+export const getProfile = state => state.profile;
+export const getIsProfile = state => !!state.profile;
