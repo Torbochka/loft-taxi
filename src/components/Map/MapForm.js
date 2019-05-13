@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper/Paper';
@@ -11,7 +11,12 @@ import { Field, reduxForm } from 'redux-form';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import {
+  fetchAddressListRequest,
+  handleRouteSubmit,
+  getAddresses,
+  getIsAddresses
+} from '../../modules/Map';
 
 const styles = theme => ({
   paper: {
@@ -23,7 +28,7 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(2))]: {
+    [theme.breakpoints.up(600 + theme.spacing(6))]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
       padding: theme.spacing(3)
@@ -39,47 +44,62 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1)
-  },
-
-  formControl: {
-    margin: theme.spacing.unit
-    // minWidth: 120
   }
 });
 
 const renderSelectField = ({
   input,
   label,
-  name,
-  inputProps,
+  selectName,
   meta: { touched, error },
   children,
   ...custom
 }) => (
   <FormControl error={touched && error}>
-    <InputLabel htmlFor={name}>{label}</InputLabel>
-    <Select native {...input} {...custom} {...inputProps}>
+    <InputLabel htmlFor={selectName}>{label}</InputLabel>
+    <Select
+      native
+      {...input}
+      {...custom}
+      inputProps={{
+        name: selectName
+      }}
+    >
       {children}
     </Select>
   </FormControl>
 );
 
-const MapForm = props => {
-  const { classes } = props;
+const MapForm = ({
+  fetchAddressListRequest,
+  handleSubmit,
+  handleRouteSubmit,
+  isAddresses,
+  addresses,
+  classes,
+  invalid,
+  submitting,
+  pristine
+}) => {
+  useEffect(() => fetchAddressListRequest(), []);
+
+  const onSubmit = () => {
+    handleRouteSubmit();
+  };
 
   return (
     <Paper className={classes.paper} elevation={2}>
-      <Grid
-        container
-        className={classes.root}
-        spacing={4}
-        alignContent="stretch"
-        alignItems="stretch"
-        direction="row"
-        justify="flex-start"
-        component="div"
-      >
-        <form className={classes.root} autoComplete="off">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid
+          container
+          className={classes.root}
+          spacing={4}
+          alignContent="stretch"
+          alignItems="stretch"
+          direction="row"
+          justify="flex-start"
+          component="div"
+        >
           <Grid item xs={12}>
             <Typography
               className={classes.grow}
@@ -91,53 +111,57 @@ const MapForm = props => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Field
-              classes={classes}
-              name="from"
-              component={renderSelectField}
-              label="Выберите адресс отправления"
-              inputProps={{
-                name: 'from'
-              }}
-            >
-              <option value="" />
-              <option value={'ff0000'}>Red</option>
-              <option value={'00ff00'}>Green</option>
-              <option value={'0000ff'}>Blue</option>
-            </Field>
+            {[
+              { label: 'Выберите адрес отправления', name: 'from' },
+              { label: 'Выберите адрес прибытия', name: 'to' }
+            ].map(({ label, name }) => (
+              <Field
+                key={label}
+                classes={classes}
+                label={label}
+                selectName={name}
+                name={name}
+                component={renderSelectField}
+              >
+                <option value="" />
+                {isAddresses &&
+                  addresses.map(el => (
+                    <option key={el} value={el}>
+                      {el}
+                    </option>
+                  ))}
+              </Field>
+            ))}
           </Grid>
           <Grid item xs={12}>
-            <Field
-              classes={classes}
-              name="to"
-              component={renderSelectField}
-              label="Выберите адресс прибытия"
-              inputProps={{
-                name: 'to'
-              }}
+            <Button
+              disabled={invalid || submitting || pristine}
+              variant="outlined"
+              color="primary"
+              className={classes.button}
+              type="submit"
             >
-              <option value="" />
-              <option value={'ff0000'}>Red</option>
-              <option value={'00ff00'}>Green</option>
-              <option value={'0000ff'}>Blue</option>
-            </Field>
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="outlined" color="primary">
-              Вызвать такси
+              Вызывать такси
             </Button>
           </Grid>
-        </form>
-      </Grid>
+        </Grid>
+      </form>
     </Paper>
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  addresses: getAddresses(state),
+  isAddresses: getIsAddresses(state)
+});
+const mapDispatchToProps = { handleRouteSubmit, fetchAddressListRequest };
 
 export default compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   reduxForm({
     form: 'mapForm'
   }),

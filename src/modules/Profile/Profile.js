@@ -9,6 +9,4 @@ const profile = handleActions(
 );
 
 export default profile;
-
 export const getProfile = state => state.profile;
-export const getIsProfile = state => !!state.profile;

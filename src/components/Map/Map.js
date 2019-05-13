@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
+import connect from 'react-redux/es/connect/connect';
+import { Link, withRouter } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper/Paper';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
-import { Link, withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button/Button';
 import { getIsLoggedIn } from '../../modules/Auth';
-import connect from 'react-redux/es/connect/connect';
+import { getIsRoute, handleClearSubmit } from '../../modules/Map';
 import MapForm from './MapForm';
 
 const styles = theme => ({
@@ -33,16 +34,11 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1)
-  },
-
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
   }
 });
 
 const Map = props => {
-  const { isLoggedIn, classes } = props;
+  const { isLoggedIn, isRoute, handleClearSubmit, classes } = props;
   const mapContainer = React.createRef();
 
   const Div = styled.div`
@@ -70,10 +66,41 @@ const Map = props => {
     };
   });
 
+  const handleClick = () => {
+    handleClearSubmit();
+  };
+
   return (
     <Div ref={mapContainer}>
       {isLoggedIn ? (
-        <MapForm />
+        !isRoute ? (
+          <MapForm />
+        ) : (
+          <Paper className={classes.paper}>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                <Typography component="h1" variant="h4" align="left">
+                  Заказ размещён
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>
+                  Ваше такси уже едет к вам. Прибудет приблизительно через 10
+                  минут.
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleClick}
+                >
+                  Сделать новый заказ
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        )
       ) : (
         <Paper className={classes.paper} elevation={2}>
           <Grid
@@ -119,10 +146,18 @@ const Map = props => {
   );
 };
 
-const mapStateToProps = state => ({ isLoggedIn: getIsLoggedIn(state) });
+const mapStateToProps = state => ({
+  isLoggedIn: getIsLoggedIn(state),
+  isRoute: getIsRoute(state)
+});
+
+const mapDispatchToProps = { handleClearSubmit };
 
 export default compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withStyles(styles)
 )(Map);
