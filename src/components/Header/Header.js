@@ -11,9 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
+  root: { position: 'relative', zIndex: 100 },
+
   grow: {
     flexGrow: 1
   },

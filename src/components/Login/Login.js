@@ -15,11 +15,14 @@ import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing(3)
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(6))]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
+    }
   }
 });
 
@@ -40,12 +43,12 @@ const validate = values => {
 const renderTextField = ({
   input,
   label,
-  meta: { touched, error },
+  meta: { touched, error, invalid },
   ...custom
 }) => (
   <TextField
     label={label}
-    error={!!(touched && error)}
+    error={touched && error}
     helperText={touched && error}
     {...input}
     {...custom}
@@ -65,55 +68,37 @@ const LoginForm = props => {
     <Grid
       container
       className={classes.root}
-      spacing={2}
+      spacing={0}
       direction="column"
       alignItems="center"
       justify="center"
-      alignContent="stretch"
       style={{ minHeight: '100vh' }}
     >
       <Grid item xs={3}>
-        <Paper className={classes.paper} elevation={2}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid
-              container
-              alignContent="stretch"
-              alignItems="stretch"
-              direction="row"
-              justify="flex-start"
-              spacing={3}
-            >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Paper className={classes.paper} elevation={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Typography
-                  component="h2"
-                  variant="h4"
-                  align="center"
-                  gutterBottom
-                >
+                <Typography component="h2" variant="h4" align="center">
                   Войти
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Field
-                  name="username"
-                  label="Имя пользователя"
-                  margin="none"
-                  component={renderTextField}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  name="password"
-                  label="Пароль"
-                  margin="none"
-                  component={renderTextField}
-                  type="password"
-                  fullWidth
-                  required
-                />
-              </Grid>
+              {[
+                { name: 'username', label: 'Имя пользователя', type: 'text' },
+                { name: 'password', label: 'Пароль', type: 'password' }
+              ].map(({ name, label, type }) => (
+                <Grid key={name} item xs={12}>
+                  <Field
+                    name={name}
+                    label={label}
+                    margin="none"
+                    component={renderTextField}
+                    type={type}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+              ))}
               <Grid item xs={12}>
                 <Button
                   variant="outlined"
@@ -125,8 +110,8 @@ const LoginForm = props => {
                 </Button>
               </Grid>
             </Grid>
-          </form>
-        </Paper>
+          </Paper>
+        </form>
       </Grid>
     </Grid>
   );

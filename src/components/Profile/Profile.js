@@ -18,8 +18,6 @@ const styles = theme => ({
     }
   },
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
     minHeight: '100vh'
   }
 });
@@ -28,21 +26,10 @@ const Profile = props => {
   const { classes } = props;
 
   return (
-    <Grid
-      container
-      className={classes.root}
-      spacing={0}
-      direction="column"
-      alignItems="center"
-    >
+    <Grid container spacing={0} direction="column" alignItems="center">
       <Grid item xs={10}>
         <Paper className={classes.paper} elevation={2}>
-          <Typography
-            className={classes.grow}
-            variant="h4"
-            component="h1"
-            align="center"
-          >
+          <Typography variant="h4" component="h1" align="center">
             Профиль
           </Typography>
           <PaymentForm />

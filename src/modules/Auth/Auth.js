@@ -13,5 +13,6 @@ const loggedIn = handleActions(
   },
   false
 );
+
 export default loggedIn;
 export const getIsLoggedIn = state => state.loggedIn;

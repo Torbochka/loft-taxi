@@ -10,7 +10,7 @@ import {
 
 const addresses = handleActions(
   {
-    [fetchAddressListRequest]: () => [],
+    [fetchAddressListRequest]: state => state,
     [fetchAddressListSuccess]: (state, action) => action.payload,
     [fetchAddressListFailure]: (state, action) => action.payload
   },
@@ -30,5 +30,8 @@ export default addresses;
 
 export const getAddresses = ({ addresses }) => addresses;
 export const getIsAddresses = ({ addresses }) =>
-  Array.isArray(addresses) && addresses.length;
-export const getIsRoute = ({ route }) => Array.isArray(route) && route.length;
+  Array.isArray(addresses) && addresses.length > 0;
+
+export const getIsRoute = ({ route }) =>
+  Array.isArray(route) && route.length > 0;
+export const getRoute = ({ route }) => route;

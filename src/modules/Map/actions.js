@@ -11,9 +11,9 @@ export const fetchAddressListFailure = createAction(
   'FETCH_ADDRESS_LIST_FAILURE'
 );
 
-export const handleRouteSubmit = createAction('FETCH_ROUTE_SUBMIT');
+export const handleRouteSubmit = createAction('HANDLE_ROUTE_SUBMIT');
 export const handleRouteSubmitSuccess = createAction(
-  'FETCH_ROUTE_SUBMIT_SUCCESS'
+  'HANDLE_ROUTE_SUBMIT_SUCCESS'
 );
 
-export const handleClearSubmit = createAction('FETCH_CLEAR_SUBMIT');
+export const handleClearSubmit = createAction('HANDLE_CLEAR_SUBMIT');

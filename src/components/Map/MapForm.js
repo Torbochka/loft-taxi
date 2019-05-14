@@ -81,7 +81,9 @@ const MapForm = ({
   submitting,
   pristine
 }) => {
-  useEffect(() => fetchAddressListRequest(), []);
+  useEffect(() => {
+    fetchAddressListRequest();
+  }, []);
 
   const onSubmit = () => {
     handleRouteSubmit();
@@ -117,13 +119,12 @@ const MapForm = ({
             ].map(({ label, name }) => (
               <Field
                 key={label}
-                classes={classes}
                 label={label}
                 selectName={name}
                 name={name}
                 component={renderSelectField}
               >
-                <option value="" />
+                <option value=" " />
                 {isAddresses &&
                   addresses.map(el => (
                     <option key={el} value={el}>
@@ -135,7 +136,7 @@ const MapForm = ({
           </Grid>
           <Grid item xs={12}>
             <Button
-              disabled={invalid || submitting || pristine}
+              disabled={invalid || pristine}
               variant="outlined"
               color="primary"
               className={classes.button}
@@ -154,7 +155,7 @@ const mapStateToProps = state => ({
   addresses: getAddresses(state),
   isAddresses: getIsAddresses(state)
 });
-const mapDispatchToProps = { handleRouteSubmit, fetchAddressListRequest };
+const mapDispatchToProps = { fetchAddressListRequest, handleRouteSubmit };
 
 export default compose(
   withRouter,

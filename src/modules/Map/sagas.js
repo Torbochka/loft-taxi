@@ -1,5 +1,11 @@
 import { takeLatest, put, select, call, fork } from 'redux-saga/effects';
 import {
+  getFormValues,
+  startSubmit,
+  stopSubmit,
+  SubmissionError
+} from 'redux-form';
+import {
   fetchAddressListRequest,
   fetchAddressListSuccess,
   fetchAddressListFailure,
@@ -8,12 +14,6 @@ import {
 } from './actions';
 import { getAddressList, getRoute } from './api';
 import { getIsAddresses } from './Map';
-import {
-  getFormValues,
-  startSubmit,
-  stopSubmit,
-  SubmissionError
-} from 'redux-form';
 
 function* fetchAddressListWatcher() {
   yield takeLatest(fetchAddressListRequest, fetchAddressListFlow);

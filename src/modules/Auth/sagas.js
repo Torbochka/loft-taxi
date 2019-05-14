@@ -30,11 +30,11 @@ export function* fetchLoginFlow() {
 function* authorize(username, password) {
   const res = yield call(getUserInfo, username, password);
   if (res.success) {
-    yield put(startSubmit('LoginForm'));
+    yield put(startSubmit('loginForm'));
     yield put(handleLoginSubmitSuccess());
     yield call(updateState, { loggedIn: true });
   } else {
-    yield put(stopSubmit('LoginForm', res.error));
+    yield put(stopSubmit('loginForm', res.error));
   }
 }
 

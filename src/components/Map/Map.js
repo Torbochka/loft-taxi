@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { compose } from 'redux';
 import connect from 'react-redux/es/connect/connect';
 import { Link, withRouter } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper/Paper';
@@ -10,19 +11,25 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
 import Button from '@material-ui/core/Button/Button';
 import { getIsLoggedIn } from '../../modules/Auth';
-import { getIsRoute, handleClearSubmit } from '../../modules/Map';
+import { getIsRoute, getRoute, handleClearSubmit } from '../../modules/Map';
 import MapForm from './MapForm';
+import { drawRoute } from './routeUtils';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing(2),
-    top: 0,
-    left: '20px',
     position: 'absolute',
+    top: 0,
+    left: 20,
     maxWidth: '30%',
+    zIndex: 1,
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
-    zIndex: 1
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(6))]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
+    }
   },
   container: {
     display: 'flex',
@@ -38,8 +45,9 @@ const styles = theme => ({
 });
 
 const Map = props => {
-  const { isLoggedIn, isRoute, handleClearSubmit, classes } = props;
-  const mapContainer = React.createRef();
+  const { isLoggedIn, isRoute, handleClearSubmit, route, classes } = props;
+  const mapContainer = useRef(null);
+  const map = useRef(null);
 
   const Div = styled.div`
     position: relative;
@@ -54,7 +62,7 @@ const Map = props => {
   useEffect(() => {
     mapboxgl.accessToken =
       'pk.eyJ1IjoidG9ib2Noa2EiLCJhIjoiY2p2azJoNDQ4MGtxOTN5cW1yNmxmc3BleSJ9.mNLvfhUFoh2eIU7-e-C4cA';
-    let map = new mapboxgl.Map({
+    map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [30.2656504, 59.8029126],
@@ -62,8 +70,16 @@ const Map = props => {
     });
 
     return () => {
-      map.remove();
+      map.current.remove();
     };
+  });
+
+  useEffect(() => {
+    map.current.on('style.load', () => {
+      if (isRoute) {
+        drawRoute(map.current, route);
+      }
+    });
   });
 
   const handleClick = () => {
@@ -77,14 +93,18 @@ const Map = props => {
           <MapForm />
         ) : (
           <Paper className={classes.paper}>
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Typography component="h1" variant="h4" align="left">
                   Заказ размещён
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography>
+                <Typography
+                  className={classes.grow}
+                  variant="body2"
+                  gutterBottom
+                >
                   Ваше такси уже едет к вам. Прибудет приблизительно через 10
                   минут.
                 </Typography>
@@ -148,7 +168,8 @@ const Map = props => {
 
 const mapStateToProps = state => ({
   isLoggedIn: getIsLoggedIn(state),
-  isRoute: getIsRoute(state)
+  isRoute: getIsRoute(state),
+  route: getRoute(state)
 });
 
 const mapDispatchToProps = { handleClearSubmit };
