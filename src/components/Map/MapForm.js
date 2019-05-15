@@ -83,7 +83,7 @@ const MapForm = ({
 }) => {
   useEffect(() => {
     fetchAddressListRequest();
-  }, []);
+  }, [fetchAddressListRequest]);
 
   const onSubmit = () => {
     handleRouteSubmit();

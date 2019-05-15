@@ -1,12 +1,14 @@
 {
   "name": "loft-taxi",
   "version": "0.1.0",
+  "homepage": "https://torbochka.github.io/loft-taxi",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.0.0-beta.1",
     "@material-ui/lab": "^4.0.0-alpha.10",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
+    "gh-pages": "^2.0.1",
     "immer": "^3.1.1",
     "mapbox-gl": "^0.54.0",
     "prettier": "^1.17.0",
@@ -27,6 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "lint": "eslint src/**/*.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
