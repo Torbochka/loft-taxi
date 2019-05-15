@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.ab1c38cc.chunk.css",
-    "main.js": "/static/js/main.a6d5f272.chunk.js",
-    "main.js.map": "/static/js/main.a6d5f272.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/css/2.00d37185.chunk.css": "/static/css/2.00d37185.chunk.css",
-    "static/js/2.994cdd19.chunk.js": "/static/js/2.994cdd19.chunk.js",
-    "static/js/2.994cdd19.chunk.js.map": "/static/js/2.994cdd19.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.2f1f4d023f4c548a8fbdaa8671b455d2.js": "/precache-manifest.2f1f4d023f4c548a8fbdaa8671b455d2.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.00d37185.chunk.css.map": "/static/css/2.00d37185.chunk.css.map",
-    "static/css/main.ab1c38cc.chunk.css.map": "/static/css/main.ab1c38cc.chunk.css.map"
+    "main.css": "/loft-taxi/static/css/main.ab1c38cc.chunk.css",
+    "main.js": "/loft-taxi/static/js/main.a6d5f272.chunk.js",
+    "main.js.map": "/loft-taxi/static/js/main.a6d5f272.chunk.js.map",
+    "runtime~main.js": "/loft-taxi/static/js/runtime~main.42236f11.js",
+    "runtime~main.js.map": "/loft-taxi/static/js/runtime~main.42236f11.js.map",
+    "static/css/2.00d37185.chunk.css": "/loft-taxi/static/css/2.00d37185.chunk.css",
+    "static/js/2.411b4824.chunk.js": "/loft-taxi/static/js/2.411b4824.chunk.js",
+    "static/js/2.411b4824.chunk.js.map": "/loft-taxi/static/js/2.411b4824.chunk.js.map",
+    "index.html": "/loft-taxi/index.html",
+    "precache-manifest.4d1bc3d041a2768fa4c9afcb850ae30c.js": "/loft-taxi/precache-manifest.4d1bc3d041a2768fa4c9afcb850ae30c.js",
+    "service-worker.js": "/loft-taxi/service-worker.js",
+    "static/css/2.00d37185.chunk.css.map": "/loft-taxi/static/css/2.00d37185.chunk.css.map",
+    "static/css/main.ab1c38cc.chunk.css.map": "/loft-taxi/static/css/main.ab1c38cc.chunk.css.map"
   }
 }

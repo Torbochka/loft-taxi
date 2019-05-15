@@ -53087,7 +53087,8 @@
         }
         var C =
             ('undefined' !== typeof t &&
-              Object({ NODE_ENV: 'production', PUBLIC_URL: '' }).SC_ATTR) ||
+              Object({ NODE_ENV: 'production', PUBLIC_URL: '/loft-taxi' })
+                .SC_ATTR) ||
             'data-styled',
           A = 'undefined' !== typeof window && 'HTMLElement' in window,
           P =
@@ -70249,4 +70250,4 @@
     }
   ]
 ]);
-//# sourceMappingURL=2.994cdd19.chunk.js.map
+//# sourceMappingURL=2.411b4824.chunk.js.map

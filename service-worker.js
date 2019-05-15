@@ -15,7 +15,9 @@ importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'
 );
 
-importScripts('/precache-manifest.2f1f4d023f4c548a8fbdaa8671b455d2.js');
+importScripts(
+  '/loft-taxi/precache-manifest.4d1bc3d041a2768fa4c9afcb850ae30c.js'
+);
 
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -34,7 +36,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerNavigationRoute(
-  workbox.precaching.getCacheKeyForURL('/index.html'),
+  workbox.precaching.getCacheKeyForURL('/loft-taxi/index.html'),
   {
     blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/]
   }
